@@ -1,17 +1,31 @@
 <script setup>
 import { store } from '@/store/store';
 import { useRouter } from 'vue-router';
-//const cart = computed(() => store.state.cart);
+import { computed } from 'vue';
 
-const props = defineProps(['book']);
+const props = defineProps({
+    book:Object,
+    isInCart: {
+        type: Boolean,
+        default: false
+    }
+});
 const router = useRouter();
 
 const delBook = (id, nombre) => {
     store.deleteBook(id, nombre)
 }
 
+const isAlreadyInCart = computed(() => {
+    return store.state.cart.some(item => item.id === props.book.id);
+});
+
 const addCart = (newbBook) => {
     store.addBookToCart(newbBook)
+}
+
+const removeFromCart = (id) => {
+    store.removeBookFromCart(id);
 }
 
 const goToEdit = () => {
@@ -26,9 +40,29 @@ const goToEdit = () => {
     <p>{{ book.price }}€</p>
     <p>{{ book.pages }} paginas</p>
     <p>{{ book.soldDate }}</p>
-    <button v-on:click="addCart(book)"> <span class="material-icons">add_shopping_cart</span> </button>
-    <button class="edit" @click="goToEdit"> <span class="material-icons">edit</span> </button>
-    <button v-on:click="delBook(book.id, book.publisher)"> <span class="material-icons">delete</span> </button>
+
+    <div v-if="isInCart">
+        <button @click="removeFromCart(book.id)">
+            <span class="material-icons">remove_shopping_cart</span>
+        </button>
+    </div>
+
+    <div v-else>
+        <button 
+            @click="addCart(book)" 
+            :disabled="isAlreadyInCart"
+            :title="isAlreadyInCart ? 'Ya está en el carrito' : 'Añadir al carrito'"
+        > 
+            <span class="material-icons">add_shopping_cart</span> 
+        </button>
+        
+        <button class="edit" @click="goToEdit"> 
+            <span class="material-icons">edit</span> 
+        </button>
+        <button v-on:click="delBook(book.id, book.publisher)"> 
+            <span class="material-icons">delete</span> 
+        </button>
+    </div>
 </div>
 </template>
 <style>

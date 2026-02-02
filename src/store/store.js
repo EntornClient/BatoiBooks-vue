@@ -5,9 +5,13 @@ export const store = {
     debug: true,
     state: reactive({
         books: [],
-        cart: []
+        cart: JSON.parse(localStorage.getItem('cart')) || []
     }),
     
+    saveCart() {
+        localStorage.setItem('cart', JSON.stringify(this.state.cart));
+    },
+
     async loadBooks(){
         try{
             const books = await api.getDBBooks();
@@ -39,11 +43,43 @@ export const store = {
     addBookToCart(newBook){
         try {
             this.state.cart.push(newBook);
+            this.saveCart();
             alert("libro añadido correctamente")
         } catch (error) {
             alert(error)
         }
     },
+
+    removeBookFromCart(id){
+        const index = this.state.cart.findIndex(book => book.id === id);
+        if (index !== -1) {
+            this.state.cart.splice(index, 1);
+            this.saveCart();
+        }
+    },
+
+    vaciarCarrito(){
+        this.state.cart = [];
+        this.saveCart();
+    },
+
+    async checkout() {
+        if (this.state.cart.length === 0) {
+            alert("El carrito está vacío");
+            return;
+        }
+
+        try {
+            const message = await api.processCheckout(this.state.cart);
+            alert(message);
+            this.state.cart = [];
+            this.saveCart();
+        } catch (error) {
+            alert(error);
+            this.vaciarCarrito();
+        }
+    },
+    
     async editBook(updatedBook){
         try {
             await api.changeDBBook(updatedBook);

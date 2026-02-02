@@ -190,6 +190,24 @@ async function changeDBUserPassword(id, newPassword) {
     }
 }
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+
+const processCheckout = async (cart) => {
+    
+    const total = cart.reduce((suma, book) => suma + Number(book.price), 0);
+
+    const firstDigit = Number(String(total).charAt(0));
+
+    await sleep(1000); 
+
+    if (firstDigit < 5) {
+        throw new Error(`La transacción ha fallado. El total es ${total}€ (El primer dígito ${firstDigit} es menor que 5)`);
+    } else {
+        return `Compra realizada con éxito. Total: ${total}€`;
+    }
+};
+
 export{
     getDBUsers,
     getDBModules,
@@ -202,5 +220,6 @@ export{
     removeDBUser,
     changeDBBook,
     changeDBUser,
-    changeDBUserPassword
+    changeDBUserPassword,
+    processCheckout
 }
