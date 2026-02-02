@@ -4,7 +4,7 @@
     import BookItem from './BookItem.vue';
 
     const books = computed(() => store.state.books)
-    
+
     const totalBooks = computed(() => {
         return store.state.books.length;
     });

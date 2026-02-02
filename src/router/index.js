@@ -2,8 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import BooksList from '@/components/BooksList.vue'
 import BookForm from '@/components/BookForm.vue'
 import AppAbout from '@/components/AppAbout.vue'
-import CartView from '@/components/CartView.vue' // Crearemos este componente después
-
+import BooksCart from '@/components/BooksCart.vue'
 const routes = [
     { 
         path: '/', 
@@ -24,7 +23,7 @@ const routes = [
     { 
         path: '/cart', 
         name: 'cart', 
-        component: CartView 
+        component: BooksCart 
     },
     { 
         path: '/about', 

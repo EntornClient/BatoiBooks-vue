@@ -1,6 +1,7 @@
 <script setup>
 import { store } from '@/store/store';
 import { useRouter } from 'vue-router';
+//const cart = computed(() => store.state.cart);
 
 const props = defineProps(['book']);
 const router = useRouter();
