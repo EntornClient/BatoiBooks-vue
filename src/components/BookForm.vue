@@ -1,8 +1,17 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, onMounted, computed } from 'vue';
 import { store } from '@/store/store'; 
+import { useRoute, useRouter } from 'vue-router'; 
+import { getDBBook } from '@/services/api';
+
+const route = useRoute(); 
+const router = useRouter();
+
+// Detectamos si estamos editando mirando si existe el parámetro id
+const isEditing = computed(() => route.params.id !== undefined);
 
 const bookData = reactive({
+    id: '', 
     moduleCode: '',
     publisher: '',
     price: null,
@@ -12,12 +21,42 @@ const bookData = reactive({
     soldDate: ''
 });
 
+// Cargar datos al montar el componente si estamos en modo edición
+onMounted(async () => {
+    if (isEditing.value) {
+        try {
+            const book = await getDBBook(route.params.id);
+            Object.assign(bookData, book); 
+        } catch (e) {
+            console.error(e);
+        }
+    }
+});
+
 const handleSubmit = async () => {
-    await store.addBook({ ...bookData });
-    resetForm();
+    if (isEditing.value) {
+        // Modo Edición: enviamos el objeto completo (con ID)
+        await store.editBook({ ...bookData });
+    } else {
+        // Modo Añadir: quitamos la ID por si acaso (la BBDD la genera)
+        const { id, ...newBook } = bookData;
+        await store.addBook(newBook);
+    }
+    router.push('/'); // Volver a la lista
 };
 
-const resetForm = () => {
+const handleReset = async () => {
+    if (isEditing.value) {
+        // En edición, resetear significa volver a cargar los datos originales del servidor
+        const book = await getDBBook(route.params.id);
+        Object.assign(bookData, book);
+    } else {
+        // En añadir, resetear es limpiar los campos
+        resetFormLocal();
+    }
+}
+
+const resetFormLocal = () => {
     bookData.moduleCode = '';
     bookData.publisher = '';
     bookData.price = null;
@@ -29,8 +68,8 @@ const resetForm = () => {
 </script>
 
 <template>
-    <form id="formulari" @submit.prevent="handleSubmit">
-        <h3 id="formTitle">Añadir libro</h3>
+    <form id="formulari" @submit.prevent="handleSubmit" @reset.prevent="handleReset">
+        <h3 id="formTitle">{{ isEditing ? 'Editar Libro' : 'Añadir libro' }}</h3>
         
         <div>
             <label for="module-code">moduleCode: </label>
@@ -79,7 +118,8 @@ const resetForm = () => {
         <div id="errores-generales"></div>
         
         <div>
-            <button type="submit">Guardar Libro</button>
+            <button type="submit">{{ isEditing ? 'Modificar' : 'Añadir' }}</button>
+            <button type="reset">Reset</button>
         </div>
         <br>
     </form>

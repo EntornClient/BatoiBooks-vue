@@ -43,5 +43,14 @@ export const store = {
         } catch (error) {
             alert(error)
         }
+    },
+    async editBook(updatedBook){
+        try {
+            await api.changeDBBook(updatedBook);
+            await this.loadBooks();
+            alert("Libro editado correctamente");
+        } catch (error) {
+            alert("Error al editar el libro: " + error);
+        }
     }
 }

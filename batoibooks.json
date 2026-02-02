@@ -2127,16 +2127,16 @@
   ],
   "books": [
     {
-      "userId": 4,
-      "moduleCode": "5025",
+      "id": "9",
+      "moduleCode": "M07",
       "publisher": "Apunts",
-      "price": 35,
+      "price": 290,
       "pages": 73,
       "status": "good",
-      "photo": "",
       "comments": "",
       "soldDate": "",
-      "id": "9"
+      "userId": 4,
+      "photo": ""
     },
     {
       "userId": 5,
@@ -2192,6 +2192,16 @@
       "status": "bad",
       "comments": "kikebujarra",
       "soldDate": "2025-12-11"
+    },
+    {
+      "id": "3adc",
+      "moduleCode": "M06",
+      "publisher": "partfghart",
+      "price": 41,
+      "pages": 526,
+      "status": "good",
+      "comments": "no",
+      "soldDate": "2025-10-31"
     }
   ]
 }

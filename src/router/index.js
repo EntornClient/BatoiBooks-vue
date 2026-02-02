@@ -1,10 +1,36 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import BookForm from '@/components/BookForm.vue'
 import BooksList from '@/components/BooksList.vue'
+import BookForm from '@/components/BookForm.vue'
+import AppAbout from '@/components/AppAbout.vue'
+import CartView from '@/components/CartView.vue' // Crearemos este componente después
 
 const routes = [
-    { path: '/form', name: 'form', component: BookForm },
-    { path: '/books', name: 'books', component: BooksList }
+    { 
+        path: '/', 
+        name: 'home', 
+        component: BooksList 
+    },
+    { 
+        path: '/create', 
+        name: 'create', 
+        component: BookForm 
+    },
+    { 
+        path: '/edit/:id', 
+        name: 'edit', 
+        component: BookForm,
+        props: true 
+    },
+    { 
+        path: '/cart', 
+        name: 'cart', 
+        component: CartView 
+    },
+    { 
+        path: '/about', 
+        name: 'about', 
+        component: AppAbout 
+    }
 ]
 
 const router = createRouter({
