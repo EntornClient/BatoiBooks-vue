@@ -18,7 +18,7 @@
     });
 
     onMounted( () => {
-        store.loadBooks();
+        store.fetchBooks();
     })
 </script>
 <template>
