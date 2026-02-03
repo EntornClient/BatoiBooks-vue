@@ -32,7 +32,7 @@ const handleCheckout = () => {
                 Total a pagar: {{ totalPrice }}€
             </div>
 
-            <button @click="handleCheckout" style="padding: 10px 20px; font-size: 1.1em; background-color: green; color: white; border: none; cursor: pointer;">
+            <button @click="handleCheckout" style="padding: 10px 20px; font-size: 1.1em; background-color: green; color: white;">
                 Realizar Compra
             </button>
             <br><br>
@@ -47,7 +47,7 @@ const handleCheckout = () => {
             </ul>
             
             <br>
-            <button @click="vaciarCarrito" style="background-color: #cc0000; color: white; border: none; padding: 5px 10px; cursor: pointer;">
+            <button @click="vaciarCarrito" style="background-color: #cc0000; color: white;">
                 Vaciar Carrito
             </button>
         </div>

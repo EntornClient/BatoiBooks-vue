@@ -82,6 +82,8 @@ export const useBookStore = defineStore('books', {
                 this.saveCart();
             } catch (error) {
                 alert(error);
+                this.vaciarCarrito();
+                this.saveCart();
             }
         }
     },

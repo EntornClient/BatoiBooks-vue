@@ -1,5 +1,5 @@
 <script setup>
-    import { useBookStore } from '../store/bookStore';
+    import { useBookStore } from '@/store/bookStore';
     import { computed, onMounted } from 'vue';
     import BookItem from './BookItem.vue';
 
@@ -8,11 +8,11 @@
     const books = computed(() => store.books);
 
     const totalBooks = computed(() => {
-        return store.state.books.length;
+        return store.books.length;
     });
 
     const totalPrice = computed(() => {
-        return store.state.books.reduce((suma, book) => {
+        return store.books.reduce((suma, book) => {
             return suma + Number(book.price);
         }, 0);
     });
