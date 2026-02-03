@@ -1,13 +1,14 @@
 <script setup>
 import { reactive, onMounted, computed } from 'vue';
-import { store } from '@/store/store'; 
+import { useBookStore } from '../store/bookStore';
 import { useRoute, useRouter } from 'vue-router'; 
 import { getDBBook } from '@/services/api';
+
+const store = useBookStore();
 
 const route = useRoute(); 
 const router = useRouter();
 
-// Detectamos si estamos editando mirando si existe el parámetro id
 const isEditing = computed(() => route.params.id !== undefined);
 
 const bookData = reactive({
@@ -21,7 +22,6 @@ const bookData = reactive({
     soldDate: ''
 });
 
-// Cargar datos al montar el componente si estamos en modo edición
 onMounted(async () => {
     if (isEditing.value) {
         try {
@@ -35,23 +35,19 @@ onMounted(async () => {
 
 const handleSubmit = async () => {
     if (isEditing.value) {
-        // Modo Edición: enviamos el objeto completo (con ID)
         await store.editBook({ ...bookData });
     } else {
-        // Modo Añadir: quitamos la ID por si acaso (la BBDD la genera)
         const { id, ...newBook } = bookData;
         await store.addBook(newBook);
     }
-    router.push('/'); // Volver a la lista
+    router.push('/'); 
 };
 
 const handleReset = async () => {
     if (isEditing.value) {
-        // En edición, resetear significa volver a cargar los datos originales del servidor
         const book = await getDBBook(route.params.id);
         Object.assign(bookData, book);
     } else {
-        // En añadir, resetear es limpiar los campos
         resetFormLocal();
     }
 }

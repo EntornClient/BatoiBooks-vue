@@ -1,9 +1,11 @@
 <script setup>
-    import { store } from '@/store/store';
+    import { useBookStore } from '../store/bookStore';
     import { computed, onMounted } from 'vue';
     import BookItem from './BookItem.vue';
 
-    const books = computed(() => store.state.books)
+    const store = useBookStore();
+
+    const books = computed(() => store.books);
 
     const totalBooks = computed(() => {
         return store.state.books.length;

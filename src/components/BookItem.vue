@@ -1,31 +1,36 @@
 <script setup>
-import { store } from '@/store/store';
+import { useBookStore } from '@/store/bookStore';
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
 
 const props = defineProps({
-    book:Object,
+    book: Object,
     isInCart: {
         type: Boolean,
         default: false
     }
 });
+
+const store = useBookStore(); 
 const router = useRouter();
 
-const delBook = (id, nombre) => {
-    store.deleteBook(id, nombre)
-}
-
 const isAlreadyInCart = computed(() => {
-    return store.state.cart.some(item => item.id === props.book.id);
+    if (store && store.isBookInCart) {
+        return store.isBookInCart(props.book.id);
+    }
+    return false;
 });
 
-const addCart = (newbBook) => {
-    store.addBookToCart(newbBook)
+const delBook = (id, nombre) => {
+    store.deleteBook(id, nombre);
+}
+
+const addCart = (newBook) => {
+    store.addToCart(newBook);
 }
 
 const removeFromCart = (id) => {
-    store.removeBookFromCart(id);
+    store.removeFromCart(id);
 }
 
 const goToEdit = () => {
@@ -43,7 +48,7 @@ const goToEdit = () => {
 
     <div v-if="isInCart">
         <button @click="removeFromCart(book.id)">
-            <span class="material-icons">remove_shopping_cart</span>
+            <span class="material-icons">remove_shopping_cart</span> Quitar
         </button>
     </div>
 
@@ -59,15 +64,31 @@ const goToEdit = () => {
         <button class="edit" @click="goToEdit"> 
             <span class="material-icons">edit</span> 
         </button>
+        
         <button v-on:click="delBook(book.id, book.publisher)"> 
             <span class="material-icons">delete</span> 
         </button>
     </div>
+
 </div>
 </template>
+
 <style>
     .card{
         text-align: center;
         background-color: brown;
+        margin: 10px;
+        padding: 10px;
+        color: white; 
+    }
+    button {
+        margin: 0 5px;
+        cursor: pointer;
+    }
+    button:disabled {
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+        border: 1px solid #999;
     }
 </style>

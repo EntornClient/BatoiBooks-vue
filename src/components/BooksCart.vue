@@ -1,13 +1,12 @@
 <script setup>
-import { store } from '@/store/store';
+import { useBookStore } from '../store/bookStore';
 import { computed } from 'vue';
 import BookItem from './BookItem.vue';
 
-const cart = computed(() => store.state.cart);
+const store = useBookStore();
 
-const totalPrice = computed(() => {
-    return cart.value.reduce((suma, book) => suma + Number(book.price), 0);
-});
+const cart = computed(() => store.cart);
+const total = computed(() => store.totalPrice);
 
 const vaciarCarrito = () => {
     store.vaciarCarrito()
@@ -27,7 +26,7 @@ const handleCheckout = () => {
         </div>
         <div v-else>
             <div style="margin: 20px 0; font-size: 1.2em; font-weight: bold;">
-                Total a pagar: {{ totalPrice }}€
+                Total a pagar: {{ total }}€
             </div>
 
             <button @click="handleCheckout" style="padding: 10px 20px; font-size: 1.1em; background-color: green; color: white; border: none; cursor: pointer;">
