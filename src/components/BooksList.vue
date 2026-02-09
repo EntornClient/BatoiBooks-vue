@@ -13,7 +13,11 @@
 
     const totalPrice = computed(() => {
         return store.books.reduce((suma, book) => {
-            return suma + Number(book.price);
+            const rawPrice = book.price ? String(book.price) : '0';
+            const cleanPrice = rawPrice.replace(',', '.');
+            const numberPrice = parseFloat(cleanPrice);
+            
+            return suma + (isNaN(numberPrice) ? 0 : numberPrice);
         }, 0);
     });
 

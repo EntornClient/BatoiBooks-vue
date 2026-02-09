@@ -2202,6 +2202,16 @@
       "status": "good",
       "comments": "no",
       "soldDate": "2025-10-31"
+    },
+    {
+      "id": "4d41",
+      "publisher": "adribujarra",
+      "moduleCode": "M06",
+      "price": 15,
+      "pages": 150,
+      "status": "good",
+      "comments": "",
+      "soldDate": ""
     }
   ]
 }
