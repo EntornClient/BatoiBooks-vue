@@ -2202,6 +2202,30 @@
       "status": "good",
       "comments": "no",
       "soldDate": "2025-10-31"
+    },
+    {
+      "id": "5e99",
+      "publisher": "kikebujaaarar",
+      "moduleCode": "M06",
+      "stock": 12,
+      "price": 150,
+      "pages": 12,
+      "status": "good",
+      "photo": "",
+      "comments": "",
+      "soldDate": ""
+    },
+    {
+      "id": "1a2f",
+      "publisher": "McGraw-Hill",
+      "moduleCode": "M07",
+      "stock": 0,
+      "price": 50.25,
+      "pages": 50,
+      "status": "good",
+      "photo": "",
+      "comments": "",
+      "soldDate": ""
     }
   ]
 }
